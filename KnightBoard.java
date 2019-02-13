@@ -3,13 +3,25 @@ public class KnightBoard {
     if (startingRows <= 0 || startingCols <= 0) {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.")
     }
-    int[][] board = new int[startingRows][startingCols];
+    int[][] board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
   }
-
-    Initialize the board to the correct size and make them all 0's
-
-
-public String toString()
+  public String toString() {
+    String display = "";
+    for(int i = 0; i < board.length; i = i + 1) {
+      for(int j = 0; j < board[].length; j = j + 1) {
+        if (board[i][j] == 0) { //If the value is 0.
+          display = display + " _ ";
+        }
+        if (board[i][j] % 10 >= 1) { //If the value is a two-digit number.
+          display = display + board[i][j] + " ";
+        } else {
+          display = display + " " + board[i][j] + " "; //If the value is a one-digit number.
+        }
+      }
+      display = display + "\n";
+    }
+    return display;
+  }
 see format for toString below
 blank boards display 0's as underscores
 you get a blank board if you never called solve or
