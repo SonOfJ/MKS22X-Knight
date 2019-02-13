@@ -1,7 +1,7 @@
 public class KnightBoard {
   public KnightBoard(int startingRows,int startingCols) {
     if (startingRows <= 0 || startingCols <= 0) {
-      throw new IllegalArgumentException("Both parameters must be positive, you nutcase.")
+      throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
     }
     int[][] board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
   }
@@ -38,7 +38,9 @@ private boolean check() { //Checks to see if the board only has 0s.
   return true;
 }
 public boolean solve(int startingRow, int startingCol) {
-
+  if (!check) {
+    throw new IllegalStateException("Dude, the board isn't even clean.");
+  }
 }
 
 
