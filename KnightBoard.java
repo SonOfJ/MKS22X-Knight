@@ -1,6 +1,10 @@
 public class KnightBoard {
-  @throws IllegalArgumentException when either parameter is <= 0.
-public KnightBoard(int startingRows,int startingCols)
+  public KnightBoard(int startingRows,int startingCols) {
+    if (startingRows <= 0 || startingCols <= 0) {
+      throw new IllegalArgumentException("Both parameters must be positive, you nutcase.")
+    }
+    int[][] board = new int[startingRows][startingCols];
+  }
 
     Initialize the board to the correct size and make them all 0's
 
