@@ -42,7 +42,25 @@ public boolean solve(int startingRow, int startingCol) {
   board[startingRow][startingCol] = 1; //The first step.
   return solveH(startingRow, startingCol, 2);
 }
-private boolean solveH(int row ,int col, int level)
+private boolean solveH(int row ,int col, int level) {
+  if (level == board.length * board[].length + 1) { //If the level is equal to the total area of the board plus 1.
+    return true;
+  }
+  if (row > -1 && row < board.length && col > -1 && col < board[].length && board[row][col] == 0) { //If the spot is available.
+    board[row][col] = level; //Put the number.
+    if (solveH(row - 2, col + 1, level + 1) || //All the possible positions.
+    solveH(row - 1, col + 2, level + 1) ||
+    solveH(row + 1, col + 2, level + 1) ||
+    solveH(row + 2, col + 1, level + 1) ||
+    solveH(row + 2, col - 1, level + 1) ||
+    solveH(row + 1, col - 2, level + 1) ||
+    solveH(row - 1, col - 2, level + 1) ||
+    solveH(row - 2, col - 1, level + 1)) {
+      return true;
+    }
+    board[row][col] = 0; //Reset the current spot.
+  }
+  return false;
 }
 @throws IllegalStateException when the board contains non-zero values.
 @throws IllegalArgumentException when either parameter is negative
