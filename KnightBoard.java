@@ -22,11 +22,6 @@ public class KnightBoard {
     }
     return display;
   }
-Modifies the board by labeling the moves from 1 (at startingRow,startingCol) up to the area of the board in proper knight move steps.
-@throws IllegalStateException when the board contains non-zero values.
-@throws IllegalArgumentException when either parameter is negative
- or out of bounds.
-@returns true when the board is solvable from the specified starting position
 private boolean check() { //Checks to see if the board only has 0s.
   for(int i = 0; i < board.length; i = i + 1) {
     for(int j = 0; j < board[].length; j = j + 1) {
@@ -41,17 +36,16 @@ public boolean solve(int startingRow, int startingCol) {
   if (!check) {
     throw new IllegalStateException("Dude, the board isn't even clean.");
   }
+  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[].length - 1) {
+    throw new IllegalArgumentException("Invalid parameters.")
+  }
+  board[startingRow][startingCol] = 1; //The first step.
+  return solveH(startingRow, startingCol, 2);
 }
-
-
-
+private boolean solveH(int row ,int col, int level)
+}
 @throws IllegalStateException when the board contains non-zero values.
 @throws IllegalArgumentException when either parameter is negative
  or out of bounds.
 @returns the number of solutions from the starting position specified
 public int countSolutions(int startingRow, int startingCol)
-
-Suggestion:
-private boolean solveH(int row ,int col, int level)
-// level is the # of the knight
-}
