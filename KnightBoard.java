@@ -33,10 +33,10 @@ private boolean check() { //Checks to see if the board only has 0s.
   return true;
 }
 public boolean solve(int startingRow, int startingCol) {
-  if (!check) {
+  if (!check) { //The board is not clean.
     throw new IllegalStateException("Dude, the board isn't even clean.");
   }
-  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[].length - 1) {
+  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[].length - 1) { //Faulty parameters.
     throw new IllegalArgumentException("Invalid parameters.")
   }
   board[startingRow][startingCol] = 1; //The first step.
@@ -62,8 +62,12 @@ private boolean solveH(int row ,int col, int level) {
   }
   return false;
 }
-@throws IllegalStateException when the board contains non-zero values.
-@throws IllegalArgumentException when either parameter is negative
- or out of bounds.
 @returns the number of solutions from the starting position specified
-public int countSolutions(int startingRow, int startingCol)
+public int countSolutions(int startingRow, int startingCol) {
+  if (!check) { //The board is not clean.
+    throw new IllegalStateException("Dude, the board isn't even clean.");
+  }
+  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[].length - 1) { //Faulty parameters.
+    throw new IllegalArgumentException("Invalid parameters.")
+  }
+}
