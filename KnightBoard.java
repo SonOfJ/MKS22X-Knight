@@ -5,6 +5,16 @@ public class KnightBoard {
     }
     int[][] board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
   }
+  public boolean addKnight(int row, int col, int level) { //Return yes if knight is added.
+    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) { //The knight is not on the board.
+      return false;
+    }
+    if (board[row][col] == 0) { //The spot is clean.
+      board[row][col] = level;
+      return true;
+    }
+    return false;
+  }
   public String toString() {
     String display = "";
     for(int i = 0; i < board.length; i = i + 1) {
