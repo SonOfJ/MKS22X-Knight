@@ -8,7 +8,7 @@ public class KnightBoard {
   public String toString() {
     String display = "";
     for(int i = 0; i < board.length; i = i + 1) {
-      for(int j = 0; j < board[].length; j = j + 1) {
+      for(int j = 0; j < board[0].length; j = j + 1) {
         if (board[i][j] == 0) { //If the value is 0.
           display = display + " _ ";
         }
@@ -24,7 +24,7 @@ public class KnightBoard {
   }
 private boolean check() { //Checks to see if the board only has 0s.
   for(int i = 0; i < board.length; i = i + 1) {
-    for(int j = 0; j < board[].length; j = j + 1) {
+    for(int j = 0; j < board[0].length; j = j + 1) {
       if (board[i][j] != 0) {
         return false;
       }
@@ -36,17 +36,17 @@ public boolean solve(int startingRow, int startingCol) {
   if (!check) { //The board is not clean.
     throw new IllegalStateException("Dude, the board isn't even clean.");
   }
-  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[].length - 1) { //Faulty parameters.
+  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[0].length - 1) { //Faulty parameters.
     throw new IllegalArgumentException("Invalid parameters.")
   }
   board[startingRow][startingCol] = 1; //The first step.
   return solveH(startingRow, startingCol, 2);
 }
 private boolean solveH(int row ,int col, int level) {
-  if (level == board.length * board[].length + 1) { //If the level is equal to the total area of the board plus 1.
+  if (level == board.length * board[0].length + 1) { //If the level is equal to the total area of the board plus 1.
     return true;
   }
-  if (row > -1 && row < board.length && col > -1 && col < board[].length && board[row][col] == 0) { //If the spot is available.
+  if (row > -1 && row < board.length && col > -1 && col < board[0].length && board[row][col] == 0) { //If the spot is available.
     board[row][col] = level; //Put the number.
     if (solveH(row - 2, col + 1, level + 1) || //All the possible positions.
     solveH(row - 1, col + 2, level + 1) ||
@@ -67,11 +67,15 @@ public int countSolutions(int startingRow, int startingCol) {
   if (!check) { //The board is not clean.
     throw new IllegalStateException("Dude, the board isn't even clean.");
   }
-  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[].length - 1) { //Faulty parameters.
+  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[0].length - 1) { //Faulty parameters.
     throw new IllegalArgumentException("Invalid parameters.")
   }
   return countH(0, 0, 1);
 }
 private int countH(int row, int col, int level) {
+  int ans = 0; //This variable will be the number of solutions.
+  if (addKnight(row, col, level)) { //If the knight can be placed.
+    if (level == board.length * board[0])
+  }
 
 }
