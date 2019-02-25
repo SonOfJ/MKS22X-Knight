@@ -70,4 +70,8 @@ public int countSolutions(int startingRow, int startingCol) {
   if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[].length - 1) { //Faulty parameters.
     throw new IllegalArgumentException("Invalid parameters.")
   }
+  return countH(0, 0, 1);
+}
+private int countH(int row, int col, int level) {
+
 }
