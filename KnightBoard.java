@@ -43,7 +43,7 @@ public boolean solve(int startingRow, int startingCol) {
   return solveH(startingRow, startingCol, 2);
 }
 private boolean solveH(int row ,int col, int level) {
-  if (level == board.length * board[0].length + 1) { //If the level is equal to the total area of the board plus 1.
+  if (level == board.length * board[0].length) { //If the level is equal to the total area of the board plus 1.
     return true;
   }
   if (row > -1 && row < board.length && col > -1 && col < board[0].length && board[row][col] == 0) { //If the spot is available.
@@ -75,7 +75,8 @@ public int countSolutions(int startingRow, int startingCol) {
 private int countH(int row, int col, int level) {
   int ans = 0; //This variable will be the number of solutions.
   if (addKnight(row, col, level)) { //If the knight can be placed.
-    if (level == board.length * board[0])
+    if (level == board.length * board[0].length) { //Has the knight been to every single location?
+      removeKnight()
   }
 
 }
