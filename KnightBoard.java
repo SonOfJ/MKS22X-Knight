@@ -10,11 +10,42 @@ public class KnightBoard {
   {2,  -1}};
   private int level = 1;
   private int sols = 0;
+  private int[][] possibleMovesBoard;
   public KnightBoard(int startingRows,int startingCols) {
     if (startingRows <= 0 || startingCols <= 0) {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
     }
-    board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
+    board = new int[startingRows][startingCols]; //Normal board.
+    possibleMovesBoard = new int[startingRows][startingCols]; //Board with possible moves.
+    for(int i = 0; i < startingRows; i = i + 1) {
+      for(int j = 0; j < startingCols; j = j + 1) {
+        if (i == 0 || i == startingRows - 1) {
+          if (j == 0 || j == startingCols - 1) {
+            possibleMovesBoard[i][j] = 2;
+          } else if (j == 1 || j == startingCols - 2) {
+            possibleMovesBoard[i][j] = 3;
+          } else {
+            possibleMovesBoard[i][j] = 4;
+          }
+        } else if (i == 1 || i == startingRows - 2) {
+          if (j == 0 || j == startingCols - 1) {
+            possibleMovesBoard[i][j] = 3;
+          } else if (j == 1 || j == startingCols - 2) {
+            possibleMovesBoard[i][j] = 4;
+          } else {
+            possibleMovesBoard[i][j] = 6;
+          }
+        } else {
+          if (j == 0 || j == startingCols - 1) {
+            possibleMovesBoard[i][j] = 4;
+          } else if (j == 1 || j == startingCols - 2) {
+            possibleMovesBoard[i][j] = 6;
+          } else {
+            possibleMovesBoard[i][j] = 8;
+          }
+        }
+      }
+    }
   }
   public boolean addKnight(int row, int col) { //Return yes if knight is added.
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) { //The knight is not on the board.
@@ -63,16 +94,16 @@ public class KnightBoard {
     return true;
   }
   public boolean solve(int startingRow, int startingCol) {
-    if (!check) { //The board is not clean.
+    if (!check()) { //The board is not clean.
       throw new IllegalStateException("Dude, the board isn't even clean.");
     }
     if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[0].length - 1) { //Faulty parameters.
-      throw new IllegalArgumentException("Invalid parameters.")
+      throw new IllegalArgumentException("Invalid parameters.");
     }
     board[startingRow][startingCol] = 1; //The first step.
     return solveH(startingRow, startingCol);
   }
-  private boolean solveH(int row ,int col, int level) {
+  private boolean solveH(int row ,int col) {
     if (level == board.length * board[0].length) { //If the level is equal to the total area of the board plus 1.
       return true;
     }
@@ -87,11 +118,11 @@ public class KnightBoard {
     return false; //Can't be solved.
   }
   public int countSolutions(int startingRow, int startingCol) {
-    if (!check) { //The board is not clean.
+    if (!check()) { //The board is not clean.
       throw new IllegalStateException("Dude, the board isn't even clean.");
     }
     if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[0].length - 1) { //Faulty parameters.
-      throw new IllegalArgumentException("Invalid parameters.")
+      throw new IllegalArgumentException("Invalid parameters.");
     }
     return countH(startingRow, startingCol);
   }
