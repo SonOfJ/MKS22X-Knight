@@ -15,12 +15,13 @@ public class KnightBoard {
     }
     board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
   }
-  public boolean addKnight(int row, int col, int level) { //Return yes if knight is added.
+  public boolean addKnight(int row, int col) { //Return yes if knight is added.
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) { //The knight is not on the board.
       return false;
     }
     if (board[row][col] == 0) { //The spot is clean.
       board[row][col] = level;
+      level = level + 1;
       return true;
     }
     return false;
