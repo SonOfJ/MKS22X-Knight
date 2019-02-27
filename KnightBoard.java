@@ -10,42 +10,11 @@ public class KnightBoard {
   {2,  -1}};
   private int level = 1;
   private int sols = 0;
-  private int[][] possibleMovesBoard;
   public KnightBoard(int startingRows,int startingCols) {
     if (startingRows <= 0 || startingCols <= 0) {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
     }
-    board = new int[startingRows][startingCols]; //Normal board.
-    possibleMovesBoard = new int[startingRows][startingCols]; //Board with possible moves.
-    for(int i = 0; i < startingRows; i = i + 1) {
-      for(int j = 0; j < startingCols; j = j + 1) {
-        if (i == 0 || i == startingRows - 1) {
-          if (j == 0 || j == startingCols - 1) {
-            possibleMovesBoard[i][j] = 2;
-          } else if (j == 1 || j == startingCols - 2) {
-            possibleMovesBoard[i][j] = 3;
-          } else {
-            possibleMovesBoard[i][j] = 4;
-          }
-        } else if (i == 1 || i == startingRows - 2) {
-          if (j == 0 || j == startingCols - 1) {
-            possibleMovesBoard[i][j] = 3;
-          } else if (j == 1 || j == startingCols - 2) {
-            possibleMovesBoard[i][j] = 4;
-          } else {
-            possibleMovesBoard[i][j] = 6;
-          }
-        } else {
-          if (j == 0 || j == startingCols - 1) {
-            possibleMovesBoard[i][j] = 4;
-          } else if (j == 1 || j == startingCols - 2) {
-            possibleMovesBoard[i][j] = 6;
-          } else {
-            possibleMovesBoard[i][j] = 8;
-          }
-        }
-      }
-    }
+    board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
   }
   public boolean addKnight(int row, int col) { //Return yes if knight is added.
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) { //The knight is not on the board.
