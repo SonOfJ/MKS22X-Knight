@@ -119,27 +119,28 @@ public class KnightBoard {
    return sols;
  }
  public boolean addKnight(int row, int col, int level){
-   if(row >= board.length || row < 0 || col >= board[0].length || col < 0 || board[row][col] != 0){
+   if(row >= board.length || row < 0 || col >= board[0].length || col < 0 || board[row][col] != 0){ //The spot is either off the board or there is already a knight.
      return false;
    } else {
-     board[row][col] = level;
+     board[row][col] = level; //Place knight.
      for(int i = 0; i < 15; i = i + 2) { //Optimization that reduces the number of moves on every possible spot by 1.
        if (row + moves[i] >= 0 && row + moves[i] < board.length && col + moves[i + 1] >= 0 && col + moves[i + 1] < board[0].length) { //Is the spot on the board?
-         canMove[row + moves[i]][col + moves[i + 1]]; //Reduce that spot.
+         canMove[row + moves[i]][col + moves[i + 1]] = canMove[row + moves[i]][col + moves[i + 1]] - 1; //Reduce that spot.
        }
      }
      return true;
    }
  }
- public boolean removeKnight(int row, int col, int counter){
-  if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
-    return false;
-  }
-  if(board[row][col] != counter){
+ public boolean removeKnight(int row, int col){
+  if(row >= board.length || row < 0 || col >= board[0].length || col < 0 || board[row][col] == 0){ //The spot is either off the board or there is no knight.
     return false;
   }else{
-    board[row][col] = 0;
-    return true;
+    board[row][col] = 0; //Remove knight.
+    for(int i = 0; i < 15; i = i + 2) { //Optimization that increases the number of moves on every possible spot by 1.
+      if (row + moves[i] >= 0 && row + moves[i] < board.length && col + moves[i + 1] >= 0 && col + moves[i + 1] < board[0].length) { //Is the spot on the board?
+        canMove[row + moves[i]][col + moves[i + 1]] = canMove[row + moves[i]][col + moves[i + 1]] + 1; //Increase that spot.
+      }
     }
+    return true;
   }
 }
