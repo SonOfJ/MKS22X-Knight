@@ -8,6 +8,7 @@ public class KnightBoard {
   {1,  -2},
   {2,   1},
   {2,  -1}};
+  private int level = 1;
   public KnightBoard(int startingRows,int startingCols) {
     if (startingRows <= 0 || startingCols <= 0) {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
