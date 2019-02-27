@@ -16,6 +16,13 @@ public class KnightBoard {
     }
     return false;
   }
+  public boolean removeKnight(int row, int col) {
+    if (board[row][col] == 0) { //The spot is clean.
+      return false;
+    }
+    board[row][col] = 0; //Empty the spot.
+    return true;
+  }
   public String toString() {
     String display = "";
     for(int i = 0; i < board.length; i = i + 1) {
