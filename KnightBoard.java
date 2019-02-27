@@ -1,39 +1,42 @@
 public class KnightBoard {
   private int[][] board;
-  private int[][] moves = {{-1,  2},
-  {1,   2},
-  {-2,  1},
-  {-2, -1},
-  {-1, -2},
-  {1,  -2},
-  {2,   1},
-  {2,  -1}};
-  private int level = 1;
-  private int sols = 0;
+  private int[][] canMove; //Array for optimization that contains the number of places the knight can move to.
+  private int[] moves = {2, 1, 1, 2, -2, -1, -1, -2, -2, 1, 2, -1, -1, 2, 1,-2}; //Arrray containing coordinates for movement.
   public KnightBoard(int startingRows,int startingCols) {
     if (startingRows <= 0 || startingCols <= 0) {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
     }
     board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
-  }
-  public boolean addKnight(int row, int col) { //Return yes if knight is added.
-    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) { //The knight is not on the board.
-      return false;
+    canMove = newint[startingRows][startingCols]; //Set up optimization array.
+    for(int i = 0; i < startingRows; i = i + 1) {
+      for(int j = 0; j < startingCols; j = j + 1) {
+        if (i == 0 || i == startingRows - 1) { //At the very top or bottom.
+          if (j == 0 || j == startingCols -1) { //At the very left or right.
+            canMove[i][j] = 2;
+          } else if (j == 1 || j == startingCols - 2) {
+            canMove[i][j] = 3;
+          } else {
+            canMove[i][j] = 4;
+          }
+        } else if (i == 1 || i == startingRows - 2) { //Moving towards the middle.
+          if (j == 0 || j == startingCols - 1) {
+            canMove[i][j] = 3;
+          } else if (j == 1 || j == startingCols - 2) {
+            canMove[i][j] = 4;
+          } else {
+            canMove[i][j] = 6;
+          }
+        } else {
+          if (j == 0 || startingCols - 1) {
+            canMove[i][j] = 4;
+          } else if (j == 1 || j == startingCols - 2) {
+            canMove[i][j] = 6;
+          } else {
+            canMove = 8;
+          }
+        }
+      }
     }
-    if (board[row][col] == 0) { //The spot is clean.
-      board[row][col] = level; //Place the knight.
-      level = level + 1; //Next level.
-      return true;
-    }
-    return false;
-  }
-  public boolean removeKnight(int row, int col) {
-    if (board[row][col] == 0) { //The spot is clean.
-      return false;
-    }
-    board[row][col] = 0; //Empty the spot.
-    level = level - 1; //Decrease the level.
-    return true;
   }
   public String toString() {
     String display = "";
@@ -70,41 +73,74 @@ public class KnightBoard {
       throw new IllegalArgumentException("Invalid parameters.");
     }
     board[startingRow][startingCol] = 1; //The first step.
-    return solveH(startingRow, startingCol);
+    return solveH(startingRow, startingCol, 1);
   }
-  private boolean solveH(int row ,int col) {
-    if (level == board.length * board[0].length) { //If the level is equal to the total area of the board plus 1.
-      return true;
-    }
-    for(int i = 0; i < 8; i = i + 1) { //Only 8 possible moves for a knight.
-      if (addKnight(row, col)) { //Can be added?
-        if (solveH(row + moves[i][0], col + moves[i][1])) {
-          return true;
-        }
-        removeKnight(row, col); //Go back and try another spot.
-      }
-    }
-    return false; //Can't be solved.
+
+ public boolean solveH(int row, int col, int level) {
+   if(level == board[row].length * board.length) {
+     return true;
+   } else {
+     for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
+       if(addKnight(row + moves[i], col + moves[i + 1], level + 1)){
+         if(solveH(row + moves[i], col + moves[i + 1], level + 1)){
+           return true;
+         } else {
+           removeKnight(row + moves[i], col + moves[i + 1], level + 1); //Try another spot.
+         }
+       }
+     }
+   }
+   return false;
+ }
+ public int countSolutions(int startingRow, int startingCol) {
+  if (!check()) { //The board is not clean.
+    throw new IllegalStateException("Dude, the board isn't even clean.");
   }
-  public int countSolutions(int startingRow, int startingCol) {
-    if (!check()) { //The board is not clean.
-      throw new IllegalStateException("Dude, the board isn't even clean.");
-    }
-    if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[0].length - 1) { //Faulty parameters.
-      throw new IllegalArgumentException("Invalid parameters.");
-    }
-    return countH(startingRow, startingCol);
+  if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[0].length - 1) { //Faulty parameters.
+    throw new IllegalArgumentException("Invalid parameters.");
   }
-  private int countH(int row, int col) {
-    if (level == board.length * board[0].length) { //If the level is equal to the total area of the board plus 1.
-      sols = sols + 1; //Gained a solution.
+  return countH(startingRow, startingCol, 1);
+}
+
+ public int countH(int row, int col, int level) {
+   int sols = 0; //Number of solutions.
+   if(board[row][col] == 0) { //Space is empty.
+     if(level == area) { //Final spot?
+     return 1;
+   } else {
+     for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
+       if(addKnight(row + moves[i], col + moves[i + 1], level + 1)){
+         sols = sols + countH(row + moves[i], col + moves[i + 1], level + 1);
+           removeKnight(row + moves[i], col + moves[i + 1], level + 1); //Try another spot.
+         }
+       }
+     }
+   }
+   return sols;
+ }
+ public boolean addKnight(int row, int col, int level){
+   if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
+     return false;
+   } else{
+     if(board[row][col] != 0){
+       return false;
+     }else{
+       board[row][col] = level;
+       return true;
+     }
+   }
+
+ }
+
+ public boolean removeKnight(int row, int col, int counter){
+  if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
+    return false;
+  }
+  if(board[row][col] != counter){
+    return false;
+  }else{
+    board[row][col] = 0;
+    return true;
     }
-    for(int i = 0; i < 8; i = i + 1) { //Only 8 possible moves for a knight.
-      if (addKnight(row, col)) { //Can be added?
-        countH(row + moves[i][0], col + moves[i][1]);
-        removeKnight(row, col); //Go back and try another spot.
-      }
-    }
-    return sols;
   }
 }
