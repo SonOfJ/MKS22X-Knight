@@ -7,7 +7,7 @@ public class KnightBoard {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
     }
     board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
-    canMove = newint[startingRows][startingCols]; //Set up optimization array.
+    canMove = new int[startingRows][startingCols]; //Set up optimization array.
     for(int i = 0; i < startingRows; i = i + 1) {
       for(int j = 0; j < startingCols; j = j + 1) {
         if (i == 0 || i == startingRows - 1) { //At the very top or bottom.
@@ -27,12 +27,12 @@ public class KnightBoard {
             canMove[i][j] = 6;
           }
         } else {
-          if (j == 0 || startingCols - 1) {
+          if (j == 0 || j == startingCols - 1) {
             canMove[i][j] = 4;
           } else if (j == 1 || j == startingCols - 2) {
             canMove[i][j] = 6;
           } else {
-            canMove = 8;
+            canMove[i][j] = 8;
           }
         }
       }
@@ -76,7 +76,7 @@ public class KnightBoard {
   }
 
  public boolean solveH(int row, int col, int level) {
-   if(level == board[row].length * board.length) {
+   if(level > board[row].length * board.length) {
      return true;
    } else {
      for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
@@ -142,4 +142,5 @@ public class KnightBoard {
     }
     return true;
   }
+}
 }
