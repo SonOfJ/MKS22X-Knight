@@ -1,9 +1,10 @@
 public class KnightBoard {
+  private int[][] board;
   public KnightBoard(int startingRows,int startingCols) {
     if (startingRows <= 0 || startingCols <= 0) {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
     }
-    int[][] board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
+    board = new int[startingRows][startingCols]; //Create board with appropriate dimensions.
   }
   public boolean addKnight(int row, int col, int level) { //Return yes if knight is added.
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) { //The knight is not on the board.
