@@ -123,6 +123,11 @@ public class KnightBoard {
      return false;
    } else {
      board[row][col] = level;
+     for(int i = 0; i < 15; i = i + 2) { //Optimization that reduces the number of moves on every possible spot by 1.
+       if (row + moves[i] >= 0 && row + moves[i] < board.length && col + moves[i + 1] >= 0 && col + moves[i + 1] < board[0].length) { //Is the spot on the board?
+         canMove[row + moves[i]][col + moves[i + 1]]; //Reduce that spot.
+       }
+     }
      return true;
    }
  }
