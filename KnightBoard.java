@@ -119,19 +119,13 @@ public class KnightBoard {
    return sols;
  }
  public boolean addKnight(int row, int col, int level){
-   if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
+   if(row >= board.length || row < 0 || col >= board[0].length || col < 0 || board[row][col] != 0){
      return false;
-   } else{
-     if(board[row][col] != 0){
-       return false;
-     }else{
-       board[row][col] = level;
-       return true;
-     }
+   } else {
+     board[row][col] = level;
+     return true;
    }
-
  }
-
  public boolean removeKnight(int row, int col, int counter){
   if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
     return false;
