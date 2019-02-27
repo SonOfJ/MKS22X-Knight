@@ -76,7 +76,7 @@ public class KnightBoard {
   }
 
  public boolean solveH(int row, int col, int level) {
-   if(level > board[row].length * board.length) {
+   if(level > board[row].length * board.length) { //Done with all spots?
      return true;
    } else {
      for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
@@ -84,7 +84,7 @@ public class KnightBoard {
          if(solveH(row + moves[i], col + moves[i + 1], level + 1)){
            return true;
          } else {
-           removeKnight(row + moves[i], col + moves[i + 1], level + 1); //Try another spot.
+           removeKnight(row + moves[i], col + moves[i + 1]); //Try another spot.
          }
        }
      }
@@ -104,13 +104,13 @@ public class KnightBoard {
  public int countH(int row, int col, int level) {
    int sols = 0; //Number of solutions.
    if(board[row][col] == 0) { //Space is empty.
-     if(level == area) { //Final spot?
+     if(level > board[row].length * board.length) { //Done with all spots?
      return 1;
    } else {
      for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
        if(addKnight(row + moves[i], col + moves[i + 1], level + 1)){
          sols = sols + countH(row + moves[i], col + moves[i + 1], level + 1);
-           removeKnight(row + moves[i], col + moves[i + 1], level + 1); //Try another spot.
+           removeKnight(row + moves[i], col + moves[i + 1]); //Try another spot.
          }
        }
      }
