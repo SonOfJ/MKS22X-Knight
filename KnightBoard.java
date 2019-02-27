@@ -72,7 +72,6 @@ public class KnightBoard {
     if (startingRow < 0 || startingCol < 0 || startingRow > board.length - 1 || startingCol > board[0].length - 1) { //Faulty parameters.
       throw new IllegalArgumentException("Invalid parameters.");
     }
-    board[startingRow][startingCol] = 1; //The first step.
     return solveH(startingRow, startingCol, 1);
   }
 
