@@ -74,7 +74,18 @@ public class KnightBoard {
     }
     return solveH(startingRow, startingCol, 1);
   }
-
+  public static void sort(int row, int col) {
+    for(int i = 2; i < 15; i = i + 2) { //The first coordinates are already sorted.
+      int index = i; //Allows for the manipulation of the index without affecting i
+      while (index != 0 && canMove[row + moves[index - 2]][col + moves[index - 1]] > canMove[row + moves[i]][col + moves[i + 1]]) {
+        moves[index] = moves[index - 2]; //Shifting first coordinate.
+        moves[index + 1] = moves[index - 1]; //Shifting second coordinate.
+        index = index - 2; //Continue the loop towards the left.
+      }
+      moves[index] = moves[i]; //Place the first coordinate.
+      moves[index + 1] = moves[i + 1]; //Place the second coordinate.
+    }
+  }
  public boolean solveH(int row, int col, int level) {
    if(level > board[row].length * board.length) { //Done with all spots?
      return true;
