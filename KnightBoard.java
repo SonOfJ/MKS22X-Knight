@@ -2,7 +2,7 @@ public class KnightBoard {
   private int[][] board;
   private int[][] canMove; //Array for optimization that contains the number of outgoing moves.
   private int[] moves = {2, 1, 1, 2, -2, -1, -1, -2, -2, 1, 2, -1, -1, 2, 1,-2}; //Arrray containing coordinates for movement.
-  public KnightBoard(int startingRows,int startingCols) {
+  public KnightBoard(int startingRows, int startingCols) {
     if (startingRows <= 0 || startingCols <= 0) {
       throw new IllegalArgumentException("Both parameters must be positive, you nutcase.");
     }
@@ -44,11 +44,12 @@ public class KnightBoard {
       for (int j = 0; j < board[0].length; j = j + 1) {
         if (board[i][j] == 0) {
           display = display + " _ ";
-        }
-        if (board[i][j] % 10 >= 1) { //If the value is a two-digit number.
-          display = display + board[i][j] + " ";
         } else {
-          display = display + " " + board[i][j] + " "; //If the value is a one-digit number.
+          if (board[i][j] / 10 == 0) { //Single-digit values.
+            display = display + " " + board[i][j] + " ";
+          } else { //Double-digit values.
+            display = display + board[i][j] + " ";
+          }
         }
       }
       display = display + "\n";
@@ -75,23 +76,39 @@ public class KnightBoard {
     return solveH(startingRow, startingCol, 1);
   }
   public void sort(int row, int col) {
-    for (int i = 2; i < 15; i = i + 2) { //The first coordinates are already sorted.
-      int index = i; //Allows for the manipulation of the index without affecting i.
-      while (index != 0 && canMove[row + moves[index - 2]][col + moves[index - 1]] < canMove[row + moves[i]][col + moves[i + 1]]) { //Not at the end and the current coordinates have a bigger value.
-        moves[index] = moves[index - 2]; //Shifting first coordinate.
-        moves[index + 1] = moves[index - 1]; //Shifting second coordinate.
-        index = index - 2; //Continue the loop towards the left.
+    int[] moveNums = new int[8]; //Array containing all outgoing values.
+    for (int i = 0; i < 8; i = i + 1) { //The first coordinates are already sorted.
+      if (row + moves[i * 2] >= 0 && row + moves[i * 2] < board.length && col + moves[i * 2 + 1] >= 0 && col + moves[i * 2 + 1] < board[0].length && board[row + moves[i * 2]][col + moves[i * 2 + 1]] == 0) { //The spot is on the board and it is clean.
+        moveNums[i] = canMove[row + moves[i * 2]][col + moves[i * 2 + 1]];
+      } else { //The spot is either not on the board or the knight was there.
+        moveNums[i] = 9; //The highest outgoing number is 8. This will make the invalid spot go to the very end of the array.
       }
-      moves[index] = moves[i]; //Place the first coordinate.
-      moves[index + 1] = moves[i + 1]; //Place the second coordinate.
+    }
+    int outValue; //Number of outgoing moves.
+    int rowNum;
+    int colNum;
+    for (int i = 1; i < 8; i = i + 1) { //First value is already sorted.
+      outValue = moveNums[i];
+      rowNum = moves[i * 2];
+      colNum = moves[i * 2 + 1];
+      int j = i;
+      while (j > 0 && moveNums[j - 1] > outValue) { //Not at the beginning and the previous value is larger.
+        moveNums[j] = moveNums[j - 1];
+        moves[j * 2] = moves[j * 2 - 2];
+        moves[j * 2 + 1] = moves[j * 2 - 1];
+        j = j - 1;
+      }
+      moveNums[j] = outValue;
+      moves[j * 2] = rowNum;
+      moves[j * 2 + 1] = colNum;
     }
   }
   public boolean solveH(int row, int col, int level) {
-    if (level > board[row].length * board.length) { //Done with all spots?
+    if (level > board[0].length * board.length) { //Done with all spots?
       return true;
     } else {
       if (addKnight(row, col, level)) {
-        sort(row, col); //OPTIMIZE MOVES.
+        sort(row, col);
         for (int i = 0; i < 15; i = i + 2) { //The array has been optimized. Order MATTERS.
           if (solveH(row + moves[i], col + moves[i + 1], level + 1)) {
             return true;
@@ -114,7 +131,7 @@ public class KnightBoard {
   public int countH(int row, int col, int level) {
     int sols = 0; //Number of solutions.
     if (addKnight(row, col, level)) {
-      if (level == board[row].length * board.length) { //Done with all spots?
+      if (level == board[0].length * board.length) { //Done with all spots?
         removeKnight(row, col);
         return 1;
       } else {
