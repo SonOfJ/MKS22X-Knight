@@ -114,7 +114,8 @@ public class KnightBoard {
  public int countH(int row, int col, int level) {
    int sols = 0; //Number of solutions.
    if (addKnight(row, col, level)) {
-     if(level > board[row].length * board.length) { //Done with all spots?
+     if(level == board[row].length * board.length) { //Done with all spots?
+       removeKnight(row, col);
      return 1;
    } else {
      for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
