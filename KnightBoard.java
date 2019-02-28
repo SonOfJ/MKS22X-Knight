@@ -78,18 +78,27 @@ public class KnightBoard {
  public boolean solveH(int row, int col, int level) {
    if(level > board[row].length * board.length) { //Done with all spots?
      return true;
-   } else {
-     for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
-       if(addKnight(row + moves[i], col + moves[i + 1], level + 1)){
-         if(solveH(row + moves[i], col + moves[i + 1], level + 1)){
-           return true;
-         } else {
-           removeKnight(row + moves[i], col + moves[i + 1]); //Try another spot.
+   } else { //OPTIMIZATION!
+     if (addKnight(row, col, level)) {
+       int dreamRow = moves[0]; //Row of the desired spot.
+       int dreamCol = moves[1]; //Column of the desired spot.
+       int dreamNum = 0; //Number that must be surpassed.
+       for(int i = 0; i < 15; i = i + 2) {
+         if (addKnight(row + moves[i], col + moves[i + 1], level + 1)) { //If the spot exists.
+           if (canMove[row + moves[i]][col + moves[i + 1]] > dreamNum) { //More possible moves?
+             dreamRow = row + moves[i];
+             dreamCol = moves[i + 1];
+             dreamNum = canMove[row + moves[i]][col + moves[i + 1]];
+           }
          }
        }
+       if(solveH(dreamRow, dreamCol, level + 1)) {
+         return true;
+       }
+       removeKnight(row, col);
      }
+     return false;
    }
-   return false;
  }
  public int countSolutions(int startingRow, int startingCol) {
   if (!check()) { //The board is not clean.
