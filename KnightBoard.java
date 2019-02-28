@@ -74,7 +74,7 @@ public class KnightBoard {
     }
     return solveH(startingRow, startingCol, 1);
   }
-  public static void sort(int row, int col) {
+  public void sort(int row, int col) {
     for(int i = 2; i < 15; i = i + 2) { //The first coordinates are already sorted.
       int index = i; //Allows for the manipulation of the index without affecting i
       while (index != 0 && canMove[row + moves[index - 2]][col + moves[index - 1]] < canMove[row + moves[i]][col + moves[i + 1]]) {
