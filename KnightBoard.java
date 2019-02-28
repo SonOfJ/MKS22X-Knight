@@ -91,26 +91,17 @@ public class KnightBoard {
      return true;
    } else { //OPTIMIZATION!
      if (addKnight(row, col, level)) {
-       int dreamRow = moves[0]; //Row of the desired spot.
-       int dreamCol = moves[1]; //Column of the desired spot.
-       int dreamNum = 0; //Number that must be surpassed.
-       for(int i = 0; i < 15; i = i + 2) {
-         if (addKnight(row + moves[i], col + moves[i + 1], level + 1)) { //If the spot exists.
-           if (canMove[row + moves[i]][col + moves[i + 1]] > dreamNum) { //More possible moves?
-             dreamRow = row + moves[i];
-             dreamCol = moves[i + 1];
-             dreamNum = canMove[row + moves[i]][col + moves[i + 1]];
-           }
+       sort(row, col);
+       for(int i = 0; i < 15; i = i + 2) { //The array has been optimized. Order MATTERS.
+         if (solveH(row + moves[i], col + moves[i + 1], level + 1)) {
+           return true;
          }
        }
-       if(solveH(dreamRow, dreamCol, level + 1)) {
-         return true;
-       }
-       removeKnight(row, col);
+       removeKnight(row, col); //Try another path.
      }
      return false;
    }
- }
+ } 
  public int countSolutions(int startingRow, int startingCol) {
   if (!check()) { //The board is not clean.
     throw new IllegalStateException("Dude, the board isn't even clean.");
