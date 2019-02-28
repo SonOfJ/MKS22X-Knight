@@ -101,7 +101,7 @@ public class KnightBoard {
      }
      return false;
    }
- } 
+ }
  public int countSolutions(int startingRow, int startingCol) {
   if (!check()) { //The board is not clean.
     throw new IllegalStateException("Dude, the board isn't even clean.");
@@ -111,23 +111,20 @@ public class KnightBoard {
   }
   return countH(startingRow, startingCol, 1);
 }
-
  public int countH(int row, int col, int level) {
    int sols = 0; //Number of solutions.
-   if(board[row][col] == 0) { //Space is empty.
+   if (addKnight(row, col, level)) {
      if(level > board[row].length * board.length) { //Done with all spots?
      return 1;
    } else {
      for(int i = 0; i < 15; i = i + 2) { //Go through the list of coordinates.
-       if(addKnight(row + moves[i], col + moves[i + 1], level + 1)){
-         sols = sols + countH(row + moves[i], col + moves[i + 1], level + 1);
-           removeKnight(row + moves[i], col + moves[i + 1]); //Try another spot.
+       sols = sols + countH(row + moves[i], col + moves[i + 1], level + 1);
          }
        }
+       removeKnight(row, col); //Try another spot.
      }
+     return sols; //Return the number of solutions.
    }
-   return sols;
- }
  public boolean addKnight(int row, int col, int level){
    if(row >= board.length || row < 0 || col >= board[0].length || col < 0 || board[row][col] != 0){ //The spot is either off the board or there is already a knight.
      return false;
