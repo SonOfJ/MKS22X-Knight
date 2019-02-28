@@ -77,7 +77,7 @@ public class KnightBoard {
   public static void sort(int row, int col) {
     for(int i = 2; i < 15; i = i + 2) { //The first coordinates are already sorted.
       int index = i; //Allows for the manipulation of the index without affecting i
-      while (index != 0 && canMove[row + moves[index - 2]][col + moves[index - 1]] > canMove[row + moves[i]][col + moves[i + 1]]) {
+      while (index != 0 && canMove[row + moves[index - 2]][col + moves[index - 1]] < canMove[row + moves[i]][col + moves[i + 1]]) {
         moves[index] = moves[index - 2]; //Shifting first coordinate.
         moves[index + 1] = moves[index - 1]; //Shifting second coordinate.
         index = index - 2; //Continue the loop towards the left.
